@@ -1,52 +1,13 @@
-/* ... (todo tu CSS existente, hasta el final de la sección de mensajes) ... */
+/* ... (todo tu CSS existente, asegúrate de que esté completo y sin errores) ... */
 
-/* Ajuste de delays para que aparezcan en secuencia */
-.mensaje:nth-child(4) {
-    animation-delay: 1.5s;
-    animation-name: appearImpact, flickerBulb;
-    animation-duration: 0.8s, 2s;
-    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1.1), ease-in-out;
-    animation-delay: 1.5s, calc(1.5s + 0.8s + 0.5s);
-    animation-fill-mode: forwards, forwards;
-    animation-iteration-count: 1, infinite;
-    animation-direction: normal, alternate;
-}
-
-.mensaje:nth-child(5) {
-    animation-delay: 4.5s;
-    animation-name: appearImpact, flickerBulb;
-    animation-duration: 0.8s, 2s;
-    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1.1), ease-in-out;
-    animation-delay: 4.5s, calc(4.5s + 0.8s + 0.5s);
-    animation-fill-mode: forwards, forwards;
-    animation-iteration-count: 1, infinite;
-    animation-direction: normal, alternate;
-}
-
-.mensaje:nth-child(6) {
-    animation-delay: 7.5s;
-    animation-name: appearImpact, flickerBulb;
-    animation-duration: 0.8s, 2s;
-    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1.1), ease-in-out;
-    animation-delay: 7.5s, calc(7.5s + 0.8s + 0.5s);
-    animation-fill-mode: forwards, forwards;
-    animation-iteration-count: 1, infinite;
-    animation-direction: normal, alternate;
-}
-
-/* ... (continúa con los estilos de .rayo, @keyframes relampago, etc.) ... */
-
-
-/* --- ESTILOS PARA EL BOTÓN (modificados) --- */
+/* --- ESTILOS PARA EL BOTÓN Y LA IMAGEN --- */
 .action-button-container {
     position: relative;
     margin-top: 2rem;
     opacity: 0;
     transform: translateY(20px);
     animation: appearButton 0.8s ease-out forwards;
-    /* AJUSTE DEL DELAY: Último mensaje termina en 7.5s + 0.8s = 8.3s.
-       Añadimos ~7 segundos a eso, lo que hace 15.3s. Redondeamos a 15.5s para un pequeño margen. */
-    animation-delay: 15.5s; /* El botón aparecerá ~7 segundos después de que el último mensaje termine */
+    animation-delay: 15.5s; /* El botón aparecerá ~7 segundos después del último mensaje */
     z-index: 5;
 }
 
@@ -96,7 +57,17 @@
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4), inset 0 0 5px rgba(255, 255, 255, 0.05);
 }
 
-/* ... (resto de tus @keyframes y media queries) ... */
+/* Animación para que el botón aparezca */
+@keyframes appearButton {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
 /* Media Query para Desktop: cambios generales */
 @media (min-width: 768px) {
