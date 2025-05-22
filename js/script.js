@@ -1,11 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     const destellos = document.querySelectorAll('.destello');
     const thunderSound = document.getElementById('thunderSound');
-    const startOverlay = document.getElementById('start-overlay');
-    const startButton = document.getElementById('startButton');
-    const body = document.body;
 
-    // 1. Posiciona los destellos de forma aleatoria al cargar la página
+    // Posiciona los destellos de forma aleatoria al cargar la página
     destellos.forEach((destello) => {
         const randomTop = Math.random() * 90; // 0-90% para evitar que se salgan demasiado
         const randomLeft = Math.random() * 90; // 0-90%
@@ -29,45 +26,26 @@ document.addEventListener('DOMContentLoaded', () => {
         destello.style.height = `${randomSize}px`;
     });
 
-    // 2. Función para iniciar todas las animaciones y el audio
-    function startExperience() {
-        body.classList.remove('paused'); // Quita la clase 'paused' para que las animaciones CSS comiencen
-        
-        // Intenta reproducir el audio inmediatamente (puede fallar si el navegador no lo permite sin interacción)
-        thunderSound.play().catch(e => console.error("Error al reproducir el audio:", e));
-        
-        // Duración del ciclo de animación del rayo (15 segundos = 15000 milisegundos)
-        const animationDuration = 15000; 
+    // Función para reproducir el trueno de forma aleatoria (no sincronizada)
+    function playRandomThunder() {
+        // Reinicia el audio al principio para permitir múltiples reproducciones sin esperar
+        thunderSound.currentTime = 0;
+        // Intenta reproducir el trueno. Usamos .catch() para manejar si el navegador bloquea la reproducción automática.
+        thunderSound.play().catch(e => {
+            console.warn("Error al reproducir el trueno automáticamente. Es probable que necesites una interacción del usuario (clic, scroll, etc.) para permitir la reproducción de audio.", e);
+        });
 
-        // Momentos exactos de los flashes de rayo dentro del ciclo de 15 segundos (en milisegundos)
-        // Estos deben coincidir lo más posible con los porcentajes de @keyframes relampago
-        const flashTimings = [
-            525,   // 3.5% de 15s
-            2700,  // 18% de 15s
-            4800,  // 32% de 15s
-            8700,  // 58% de 15s
-            11550, // 77% de 15s
-            13575  // 90.5% de 15s (el flash más intenso)
-        ];
+        // Calcula un nuevo delay aleatorio para la próxima reproducción
+        // El trueno sonará entre 10 y 30 segundos después del anterior.
+        const minDelay = 10000; // 10 segundos
+        const maxDelay = 30000; // 30 segundos
+        const nextDelay = Math.random() * (maxDelay - minDelay) + minDelay;
 
-        // Establece un bucle para reproducir el sonido en los momentos de los flashes
-        setInterval(() => {
-            flashTimings.forEach(time => {
-                setTimeout(() => {
-                    // Reinicia el audio al principio para permitir múltiples reproducciones rápidas
-                    thunderSound.currentTime = 0; 
-                    thunderSound.play().catch(e => console.error("Error al reproducir el trueno:", e));
-                }, time);
-            });
-        }, animationDuration); // Repetir este conjunto de sonidos cada 15 segundos
-
-        // 3. Oculta el overlay de inicio
-        startOverlay.style.opacity = '0';
-        setTimeout(() => {
-            startOverlay.remove(); // Elimina el overlay del DOM después de la transición
-        }, 1000); // Espera a que la transición de opacidad termine (1 segundo)
+        // Programa la próxima reproducción del trueno
+        setTimeout(playRandomThunder, nextDelay);
     }
 
-    // 4. Asocia la función startExperience al clic del botón
-    startButton.addEventListener('click', startExperience);
+    // Inicia la secuencia de truenos aleatorios
+    // El primer trueno sonará después de 5 segundos de cargar la página.
+    setTimeout(playRandomThunder, 5000);
 });
