@@ -1,206 +1,56 @@
-/* Reset y estilos base */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* ... (todo tu CSS existente) ... */
+
+/* --- NUEVOS ESTILOS PARA EL BOTÓN --- */
+.action-button-container {
+    position: relative; /* Necesario para posicionar el botón si usas absolute */
+    margin-top: 2rem; /* Espacio entre el último mensaje y el botón */
+    opacity: 0; /* Oculto por defecto */
+    transform: translateY(20px); /* Un poco desplazado hacia abajo */
+    animation: appearButton 0.8s ease-out forwards; /* Animación para aparecer */
+    animation-delay: 9s; /* Aparece después del último mensaje */
+    z-index: 5; /* Asegura que esté sobre el fondo pero debajo del rayo */
 }
 
-html, body {
-    height: 100%;
-    overflow: hidden;
+.action-button {
+    display: inline-block;
+    padding: 1.2rem 2.5rem;
     font-family: "MedievalSharp", cursive;
-    font-weight: 400;
-    font-style: normal;
-    color: #AAAAAA; /* Grisáceo oscuro para el texto */
-}
-
-body {
-    background: url('../images/Fondo-mobile-IA.webp') no-repeat center center fixed;
-    background-size: cover;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    text-align: center;
-    padding: 1rem;
-    position: relative;
-    z-index: 1;
-    animation: screenFlash 15s infinite;
-    will-change: transform, filter;
-}
-
-a {
+    font-size: 1.2rem;
+    color: #F0E68C; /* Un dorado o amarillo pálido para el texto */
     text-decoration: none;
-    color: inherit;
+    border: 2px solid #8B4513; /* Un borde que parece madera oscura o cuero */
+    background: linear-gradient(145deg, #4A2D0C, #2E1B07); /* Fondo degradado oscuro con textura */
+    border-radius: 8px; /* Bordes ligeramente redondeados */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6), inset 0 0 8px rgba(255, 255, 255, 0.1); /* Sombra exterior y brillo interior */
+    transition: all 0.3s ease; /* Transición suave para los estados hover/active */
+    cursor: pointer;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7); /* Sombra de texto para profundidad */
+    letter-spacing: 0.05em; /* Espaciado entre letras */
+    outline: none; /* Elimina el contorno azul al hacer clic */
 }
 
-.mensaje {
-    font-size: 1.8rem;
-    opacity: 0;
-    animation: appearImpact 0.8s cubic-bezier(0.1, 0.9, 0.2, 1.1) forwards;
-    text-shadow: 0 0 5px rgba(170, 170, 170, 0.5), 0 0 15px rgba(0, 0, 0, 0.4), 0 0 25px rgba(0, 0, 0, 0.8);
-    line-height: 1.4;
-    transform: scale(0.8);
-    will-change: transform, opacity, text-shadow;
-    margin-bottom: 0.5em;
+.action-button:hover {
+    background: linear-gradient(145deg, #5C3D1B, #3B240B); /* Ligeramente más claro al pasar el ratón */
+    transform: translateY(-3px) scale(1.02); /* Pequeño levantamiento y agrandamiento */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8), inset 0 0 10px rgba(255, 255, 255, 0.2);
+    color: #FFFACD; /* Un dorado más brillante */
 }
 
-/* Ajuste de delays para que aparezcan en secuencia */
-.mensaje:nth-child(4) {
-    animation-delay: 1.5s;
-    animation-name: appearImpact, flickerBulb;
-    animation-duration: 0.8s, 2s;
-    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1.1), ease-in-out;
-    animation-delay: 1.5s, calc(1.5s + 0.8s + 0.5s);
-    animation-fill-mode: forwards, forwards;
-    animation-iteration-count: 1, infinite;
-    animation-direction: normal, alternate;
+.action-button:active {
+    transform: translateY(1px); /* Ligero hundimiento al hacer clic */
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4), inset 0 0 5px rgba(255, 255, 255, 0.05);
 }
 
-.mensaje:nth-child(5) {
-    animation-delay: 4.5s;
-    animation-name: appearImpact, flickerBulb;
-    animation-duration: 0.8s, 2s;
-    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1.1), ease-in-out;
-    animation-delay: 4.5s, calc(4.5s + 0.8s + 0.5s);
-    animation-fill-mode: forwards, forwards;
-    animation-iteration-count: 1, infinite;
-    animation-direction: normal, alternate;
-}
-
-.mensaje:nth-child(6) {
-    animation-delay: 7.5s;
-    animation-name: appearImpact, flickerBulb;
-    animation-duration: 0.8s, 2s;
-    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1.1), ease-in-out;
-    animation-delay: 7.5s, calc(7.5s + 0.8s + 0.5s);
-    animation-fill-mode: forwards, forwards;
-    animation-iteration-count: 1, infinite;
-    animation-direction: normal, alternate;
-}
-
-/* Animación de impacto para el texto */
-@keyframes appearImpact {
-    0% { opacity: 0; transform: scale(0.7); }
-    50% { opacity: 1; transform: scale(1.05); }
-    100% { opacity: 1; transform: scale(1); }
-}
-
-/* Nueva animación para el efecto de bombilla defectuosa */
-@keyframes flickerBulb {
-    0%, 100% {
+/* Animación para que el botón aparezca */
+@keyframes appearButton {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
         opacity: 1;
-        text-shadow: 0 0 5px rgba(170, 170, 170, 0.5), 0 0 15px rgba(0, 0, 0, 0.4), 0 0 25px rgba(0, 0, 0, 0.8);
+        transform: translateY(0);
     }
-    20% {
-        opacity: 0.95;
-        text-shadow: 0 0 4px rgba(170, 170, 170, 0.4), 0 0 12px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.7);
-    }
-    40% {
-        opacity: 1;
-        text-shadow: 0 0 6px rgba(170, 170, 170, 0.6), 0 0 18px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 0, 0, 0.9);
-    }
-    60% {
-        opacity: 0.85;
-        text-shadow: none;
-    }
-    80% {
-        opacity: 0.9;
-        text-shadow: 0 0 3px rgba(170, 170, 170, 0.3), 0 0 10px rgba(0, 0, 0, 0.2), 0 0 15px rgba(0, 0, 0, 0.6);
-    }
-}
-
-/* Efecto de Rayo - ¡MÁS BRUTAL! */
-.rayo {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: white;
-    opacity: 0;
-    pointer-events: none;
-    animation: relampago 15s infinite;
-    mix-blend-mode: overlay;
-    z-index: 10;
-}
-
-@keyframes relampago {
-    0%, 5%, 10%, 15%, 20%, 25%, 30%, 35%, 40%, 45%, 50%, 55%, 60%, 65%, 70%, 75%, 80%, 85%, 90%, 95%, 100% {
-        opacity: 0;
-    }
-    3.5%, 18%, 32%, 58%, 77% {
-        opacity: 0.7;
-    }
-    3.6%, 18.1%, 32.1%, 58.1%, 77.1% {
-        opacity: 0;
-    }
-    4%, 18.5%, 32.5%, 58.5%, 77.5% {
-        opacity: 0.35;
-    }
-    4.1%, 18.6%, 32.6%, 58.6%, 77.6% {
-        opacity: 0;
-    }
-    7%, 22%, 48%, 62%, 85% {
-        opacity: 0.2;
-    }
-    7.1%, 22.1%, 48.1%, 62.1%, 85.1% {
-        opacity: 0;
-    }
-    90.5% {
-        opacity: 0.9;
-    }
-    90.6% {
-        opacity: 0;
-    }
-}
-
-/* ANIMACIÓN para el efecto de contraste, brillo, sacudida y distorsión en el fondo */
-@keyframes screenFlash {
-    0%, 5%, 10%, 15%, 20%, 25%, 30%, 35%, 40%, 45%, 50%, 55%, 60%, 65%, 70%, 75%, 80%, 85%, 90%, 95%, 100% {
-        filter: brightness(1) contrast(1) hue-rotate(0deg);
-        transform: translate(0, 0) scale(1);
-    }
-    3.5%, 18%, 32%, 58%, 77% {
-        filter: brightness(1.5) contrast(2.0) hue-rotate(5deg);
-        transform: translate(2px, 2px) scale(1.008);
-    }
-    3.55%, 18.05%, 32.05%, 58.05%, 77.05% {
-        transform: translate(-3px, -3px) scale(1.006);
-    }
-    3.6%, 18.1%, 32.1%, 58.1%, 77.1% {
-        filter: brightness(1) contrast(1) hue-rotate(0deg);
-        transform: translate(0, 0) scale(1);
-    }
-    90.5% {
-        filter: brightness(1.7) contrast(2.5) hue-rotate(10deg);
-        transform: translate(5px, 5px) scale(1.01);
-    }
-    90.55% {
-        transform: translate(-6px, -6px) scale(1.008);
-    }
-    90.6% {
-        filter: brightness(1) contrast(1) hue-rotate(0deg);
-        transform: translate(0, 0) scale(1);
-    }
-}
-
-
-/* Efectos de Destello - Estilos base. Las posiciones serán sobreescritas por JS */
-.destello {
-    position: absolute;
-    width: 150px;
-    height: 150px;
-    background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 80%);
-    animation: flicker 8s infinite ease-in-out;
-    pointer-events: none;
-    z-index: 2;
-    opacity: 0;
-}
-
-@keyframes flicker {
-    0%, 100% { opacity: 0; transform: scale(0.6); }
-    50% { opacity: 0.5; transform: scale(1.3); }
 }
 
 /* Media Query para Desktop: cambios generales */
@@ -214,5 +64,9 @@ a {
     .destello {
         width: 150px;
         height: 150px;
+    }
+    .action-button {
+        font-size: 1.5rem; /* Botón más grande en desktop */
+        padding: 1.5rem 3rem;
     }
 }
