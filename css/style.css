@@ -1,84 +1,218 @@
-/* --- NUEVO CÓDIGO PARA EL EFECTO DE LLUVIA/NIEVE --- */
-/* main element */
-.weather {
-    position: fixed; /* Usar fixed para que cubra toda la ventana */
+/* Reset y estilos base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+    font-family: "MedievalSharp", cursive;
+    font-weight: 400;
+    font-style: normal;
+    color: #AAAAAA; /* Grisáceo oscuro para el texto */
+}
+
+body {
+    background: url('../images/Fondo-mobile-IA.webp') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 1rem;
+    position: relative;
+    z-index: 1;
+    animation: screenFlash 15s infinite;
+    will-change: transform, filter;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.mensaje {
+    font-size: 1.8rem;
+    opacity: 0;
+    animation: appearImpact 0.8s cubic-bezier(0.1, 0.9, 0.2, 1.1) forwards;
+    text-shadow: 0 0 5px rgba(170, 170, 170, 0.5), 0 0 15px rgba(0, 0, 0, 0.4), 0 0 25px rgba(0, 0, 0, 0.8);
+    line-height: 1.4;
+    transform: scale(0.8);
+    will-change: transform, opacity, text-shadow;
+    margin-bottom: 0.5em;
+}
+
+/* Ajuste de delays para que aparezcan en secuencia */
+.mensaje:nth-child(4) {
+    animation-delay: 1.5s;
+    animation-name: appearImpact, flickerBulb;
+    animation-duration: 0.8s, 2s;
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1.1), ease-in-out;
+    animation-delay: 1.5s, calc(1.5s + 0.8s + 0.5s);
+    animation-fill-mode: forwards, forwards;
+    animation-iteration-count: 1, infinite;
+    animation-direction: normal, alternate;
+}
+
+.mensaje:nth-child(5) {
+    animation-delay: 4.5s;
+    animation-name: appearImpact, flickerBulb;
+    animation-duration: 0.8s, 2s;
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1.1), ease-in-out;
+    animation-delay: 4.5s, calc(4.5s + 0.8s + 0.5s);
+    animation-fill-mode: forwards, forwards;
+    animation-iteration-count: 1, infinite;
+    animation-direction: normal, alternate;
+}
+
+.mensaje:nth-child(6) {
+    animation-delay: 7.5s;
+    animation-name: appearImpact, flickerBulb;
+    animation-duration: 0.8s, 2s;
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1.1), ease-in-out;
+    animation-delay: 7.5s, calc(7.5s + 0.8s + 0.5s);
+    animation-fill-mode: forwards, forwards;
+    animation-iteration-count: 1, infinite;
+    animation-direction: normal, alternate;
+}
+
+/* Animación de impacto para el texto */
+@keyframes appearImpact {
+    0% { opacity: 0; transform: scale(0.7); }
+    50% { opacity: 1; transform: scale(1.05); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+/* Nueva animación para el efecto de bombilla defectuosa */
+@keyframes flickerBulb {
+    0%, 100% {
+        opacity: 1;
+        text-shadow: 0 0 5px rgba(170, 170, 170, 0.5), 0 0 15px rgba(0, 0, 0, 0.4), 0 0 25px rgba(0, 0, 0, 0.8);
+    }
+    20% {
+        opacity: 0.95;
+        text-shadow: 0 0 4px rgba(170, 170, 170, 0.4), 0 0 12px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.7);
+    }
+    40% {
+        opacity: 1;
+        text-shadow: 0 0 6px rgba(170, 170, 170, 0.6), 0 0 18px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 0, 0, 0.9);
+    }
+    60% {
+        opacity: 0.85;
+        text-shadow: none;
+    }
+    80% {
+        opacity: 0.9;
+        text-shadow: 0 0 3px rgba(170, 170, 170, 0.3), 0 0 10px rgba(0, 0, 0, 0.2), 0 0 15px rgba(0, 0, 0, 0.6);
+    }
+}
+
+/* Efecto de Rayo - ¡MÁS BRUTAL! */
+.rayo {
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    overflow: hidden;
-    z-index: 5; /* Por encima del fondo y destellos, pero por debajo de los mensajes y el rayo */
-    pointer-events: none; /* Crucial para que no bloquee interacciones */
-}
-/* pseudo elements: positioning and setup */
-.weather:before, .weather:after {
-    content: "";
-    position: absolute; left: -50%; top: -50%; right: -50%; bottom: -50%;
-    z-index: 1; /* Dentro de .weather */
+    background: white;
+    opacity: 0;
     pointer-events: none;
+    animation: relampago 15s infinite;
+    mix-blend-mode: overlay;
+    z-index: 10;
+}
 
-    background: transparent repeat;
-    background-size: 256px 1024px; /* Tamaño de la imagen de fondo que se repite */
-    -ms-interpolation-mode: nearest-neighbor; /* Para asegurar el pixel art */
-    image-rendering: -webkit-optimize-contrast;
-    image-rendering: -webkit-crisp-edges;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: -o-crisp-edges;
-    image-rendering: pixelated; /* La mejor opción para navegadores modernos */
-    opacity: 0.7;
+@keyframes relampago {
+    0%, 5%, 10%, 15%, 20%, 25%, 30%, 35%, 40%, 45%, 50%, 55%, 60%, 65%, 70%, 75%, 80%, 85%, 90%, 95%, 100% {
+        opacity: 0;
+    }
+    3.5%, 18%, 32%, 58%, 77% {
+        opacity: 0.7;
+    }
+    3.6%, 18.1%, 32.1%, 58.1%, 77.1% {
+        opacity: 0;
+    }
+    4%, 18.5%, 32.5%, 58.5%, 77.5% {
+        opacity: 0.35;
+    }
+    4.1%, 18.6%, 32.6%, 58.6%, 77.6% {
+        opacity: 0;
+    }
+    7%, 22%, 48%, 62%, 85% {
+        opacity: 0.2;
+    }
+    7.1%, 22.1%, 48.1%, 62.1%, 85.1% {
+        opacity: 0;
+    }
+    90.5% {
+        opacity: 0.9;
+    }
+    90.6% {
+        opacity: 0;
+    }
+}
 
-    -webkit-transform: rotate(10deg);
-    -moz-transform: rotate(10deg);
-    -ms-transform: rotate(10deg);
-    -o-transform: rotate(10deg);
-    transform: rotate(10deg); /* Ligeramente inclinado */
+/* ANIMACIÓN para el efecto de contraste, brillo, sacudida y distorsión en el fondo */
+@keyframes screenFlash {
+    0%, 5%, 10%, 15%, 20%, 25%, 30%, 35%, 40%, 45%, 50%, 55%, 60%, 65%, 70%, 75%, 80%, 85%, 90%, 95%, 100% {
+        filter: brightness(1) contrast(1) hue-rotate(0deg);
+        transform: translate(0, 0) scale(1);
+    }
+    3.5%, 18%, 32%, 58%, 77% {
+        filter: brightness(1.5) contrast(2.0) hue-rotate(5deg);
+        transform: translate(2px, 2px) scale(1.008);
+    }
+    3.55%, 18.05%, 32.05%, 58.05%, 77.05% {
+        transform: translate(-3px, -3px) scale(1.006);
+    }
+    3.6%, 18.1%, 32.1%, 58.1%, 77.1% {
+        filter: brightness(1) contrast(1) hue-rotate(0deg);
+        transform: translate(0, 0) scale(1);
+    }
+    90.5% {
+        filter: brightness(1.7) contrast(2.5) hue-rotate(10deg);
+        transform: translate(5px, 5px) scale(1.01);
+    }
+    90.55% {
+        transform: translate(-6px, -6px) scale(1.008);
+    }
+    90.6% {
+        filter: brightness(1) contrast(1) hue-rotate(0deg);
+        transform: translate(0, 0) scale(1);
+    }
+}
 
-    -webkit-animation-name: weather;
-    -webkit-animation-timing-function: linear;
-    -webkit-animation-iteration-count: infinite;
-    animation-name: weather;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
+
+/* Efectos de Destello - Estilos base. Las posiciones serán sobreescritas por JS */
+.destello {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 80%);
+    animation: flicker 8s infinite ease-in-out;
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0;
 }
-.weather:after {
-    opacity: 0.8;
-    -webkit-animation-name: weather2;
-    animation-name: weather2;
+
+@keyframes flicker {
+    0%, 100% { opacity: 0; transform: scale(0.6); }
+    50% { opacity: 0.5; transform: scale(1.3); }
 }
-/* rain (fast, rain.png) */
-.weather.rain:before, .weather.rain:after {
-    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAEACAYAAAADRnAGAAAH6klEQVR42u2dS4wURRjHq2p2BrMIrCsePLAS0BsEY6IJyTY7vBqXGBl5KCgIywK92Y2BFTyAJmqMezFeVIytHjQQOUAUiRG3edPrbuBiiF68GKInE9iXq7i7M1UeQJ0dZnr7Uf2o/r7fjRmmt/vf/6/qq66urwgpQzds8fyrV2cTCeiGXQjyfS02H7zyHpEIq/zgi7efGJV0bFH5wQuvXd3r9L1L/gxVAIkMVX6QzbJxp+9dckMJASxTu1z52eQkH3P63iWTZWG0MskOIFUcMBE4rgQZDu0EdcMWRCF0w14KWgApbYBu2A1l/54AJwAhZEHZv4chCtCkigBPvdTXHYYACyX0zZHAudxeq7XT7v7PAbphLyaEjCTaroxw6Ye0TG3vncTkR0LIICQHEEI4K+sCFyXdAZSG4ICy1PSnpDsghMx1igMWW6Z2KOEC8IQLqhatnXY3QRDXA6Xn0poKu2UO2gB4CPSk9cJmJ+hc5qHVkkp+e29vGh3guhcQQoTeC1im9ltiBeAlkYupXWhKSB4QzwNjy9R+TYQAlLJ64JlgPCGQHAEYnQl9LNAAOqFr2dY7HtOFLUmEwsu2fvc76BAQVAzDbgOEGILtACFGYDuAi0HQAmSyOeUcsHrP5TZ5qXAmTysDdMN+KMDPKYGMVAeklbQLQKELkI633nTDzkMPAYptQA3XdvXNhiBAzVj+9nDzKEEQBEEQBEEQBEEQBEGqs2r3pR3dsB8t/wzavEAjqXi+CE2AesvUfoAswF1Pl6EJICrfOQIlAKUkZ5naNcgCzAQfAtAFuAVdgJuYDiIIXHTj4kZUAUHKQsKeLzUPWNNhKxdjshOhBpUu3jK167IFmIQQN2+m6Xr8OIA6tAHbQbcBvR9pn0NvBAloAdZ02O2gBRCCjIIWwDK149P0IC1KCLDl0NW8040O8PfqlBCgWOQ5h7v8epyJ0qpdF3qiCAHpS+V1w54boJz2/zdnstgYugClksiGkHff0A17WdDjUEpTWcnCNfkdZ46AToQooQK0AELyQjAVHRBoAdX6/QPz1HaAEIEs8OW7S6dUq2JLCifuWnW14cDAwcQ6gNK/ZDqAPP7sqceiOPENBwYekXGclhet8OsartvX3yH7mOv3D8wniCKs7ep7C8q1shot7YOprSHqMg+YQW6/VAgX3bCPgXVAa6d9NC0O0A17k2cBTn+obSXpqSR9vx8HfEAIuS/EuxJlTjDLTyNIKVVrorMWlqm946MbJMOZTHgVJC1Tuz7d/2neeroQhUBVBeCcjBHJGxt6HvVxwWHITgNze1DDW+oGUUSn7ieiG7YZnASxT+4TEvOuURAfU+XEAoTTePYdkOYAQ5+k6J5VjrR/Yd7T1ZKwCMEZHPMRZkreruTmtALph76gyIvTigMQ+W5xuwpbdKUicqfzim/ebvew6xZN24dVuaq079zAhpBhSdyqN1k67zeNPMm5PvIkEEnQuMHQHUOp5PsDVTWWWqZ0kwaetmUd7ei6A5mM+IOv6xC0z8NtdnhxgmdqoDwd4/UmklzuSyPf7yp3S2mnnJJBZ29XX5lG87ZHfpaSypsMuhNZ9uYnn5VtOxLpHAOd8RrwZ3MT4RCZOAUqlYn2sAuTuyZXiDQIKu8Q2Ap0V7efaUAVofT9SnofsPLsaVUAwfGNVfW7qldeN80ouqJQ2FuBczS1tpAnAFF2BKNMBWeAOUHNLTokOEAK6Axh0B9ScG1i3rx/L14Cm0N2/LvUhME14ZFIvQMsOa6NDA8lTL8Clz/QTDg7Ax9ISRpQ9yrYBkpgFXQAOXQCGDoDuAN2wC9AdwKC3ARyyAH8Q6KW/wmgDEAR4uDBJfyyJK81ZZAJwzhtdChXl/CCPUgBX64z9vCSthAMopfdCGTtUZUX7hVOqNpayHEBBCxC0uhM6IAUOGAMtACHxrjNOggwGCYIgCIKo8qxAeh7gRKNEMdWbGBFCzEny+UYhgMyqdPInRiJ4TDVHsZCVy6rdl36G3gg2QBdA2kvUsnsB6bvNVYNSKq0q3Z16J9gGqBYCQ9AFGIEuwCA6IAE0b+stgHaAECLdr9dMN+yO0wFR4TjoErzEIhFgPZ7L+ZgEcBx0McZ4VA6Ia5rMcYrePvLkybSHgK8JWpaUE4nLedIFOPPxsovQHUBAOyBGxqALMAJdAH8pN/SyMv8WVgYtQBN0ARaiAxAEiZqId5uKNhHafPDKK3iLIbPhwMBhlbrBMHgAtACci1mpEWDpxq88z8lTStMjAKur8+wSIQRPjQC8WOQ+HKDMc4Zp3xLz44BikY+p5ADH5wG8VPJj50mVBHAcDQ4cL/h5L0cpB0h/HkApHUmNA/wwMVHCNUSp55mX+1Mx4vPdX3NO5roa9+85m9oFE+6WzIt0bOLuG333+WNJO6cV7Rd6Ajvg6b3ff+1uXMClF1fQDTvQ1l2U0sZAAuiGPd9toVRKWRgvTAQt0lof2AFuC6UKEko90aBbd9FAAlimdt11oVQh/5UZy9SuBfl9ecEH5je2GHO5DoAmb+MFSmmulgO8xNaQSweEOjDy2SA21BKg5MEBIzVOaOrzBSrCHhj5aRCrN4IeY2u8RnxOKZZUV5cNe2Dkp0G8VfuOAWDlrovHCIIgYFm+83yXjOGwsggh/kYbIAqSbzu3SfYxlWoDOOe5KknNAjACMMbuylrPfZr/RQkBZKTcnPP6Kg5YFOSY/wBRWmBLYfog4AAAAABJRU5ErkJggg==);
-    -webkit-animation-duration: 2s;
-    animation-duration: 2s;
-}
-.weather.rain:after {
-    -webkit-animation-duration: 1.5s;
-    animation-duration: 1.5s;
-}
-/* snow (slow, snow.png) */
-.weather.snow:before, .weather.snow:after {
-    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAEACAYAAAADRnAGAAABKklEQVR42u3cQQ7CMAwEwJj//zk9VULqDSonjmc+QNNubScgxihkzjlHV/fi3QQAAACbHjtIO0gJEMH/riWyPjAiYpfFp17L7gkAUHwAQOsCADDk4SnkLN5NAAAtb6XIXPzqX4lIAAAAxSdKZ4ldZ3UJAM6ougCgLdqOSgBIq3olAQDor5VaoeHCkAEA0Gjyc13GcQkAAAAAANjKUQelWYuJ3Rd/xN9v/fI0nfsDVKz0vrKWAP0bAAwyBhkJAAC0ZwOaBAAAmLIAOKZzOKSQADME3m81A0DxMzBJAABgnjBRSgCAolllgVF98Uf80ZKIG3yQKHfc9lUCAAAAAB6cMcDrr8On4nu47NB1fmlbEFViMDBBo/fIN7wSoKIC6Eg60uInqR2Dygu87gIbXdZS4cGX7QAAAABJRU5ErkJggg==);
-    -webkit-animation-duration: 6s;
-    animation-duration: 6s;
-}
-.weather.snow:after {
-    -webkit-animation-duration: 4.5s;
-    animation-duration: 4.5s;
-}
-/* animation keyframes */
-@-webkit-keyframes weather {
-    from { background-position: 0 0px; }
-    to { background-position: 0 1024px; }
-}
-@keyframes weather {
-    from { background-position: 0 0px; }
-    to { background-position: 0 1024px; }
-}
-@-webkit-keyframes weather2 {
-    from { background-position: 64px 64px; } /* Mueve el punto de inicio para la segunda capa */
-    to { background-position: 64px 1088px; } /* Y el final para que haya una ligera diferencia */
-}
-@keyframes weather2 {
-    from { background-position: 64px 64px; }
-    to { background-position: 64px 1088px; }
+
+/* Media Query para Desktop: cambios generales */
+@media (min-width: 768px) {
+    body {
+        background-image: url('../images/Fondo-desktop-ia.webp');
+    }
+    .mensaje {
+        font-size: 3.5rem;
+    }
+    .destello {
+        width: 150px;
+        height: 150px;
+    }
 }
