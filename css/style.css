@@ -25,6 +25,9 @@ body {
     padding: 1rem;
     position: relative; /* Para posicionar los efectos de luz */
     z-index: 1; /* Asegurar que el cuerpo esté por encima de los efectos iniciales */
+    /* ¡NUEVAS LÍNEAS PARA EL EFECTO DE CONTRASTE DEL FONDO! */
+    animation: screenFlash 15s infinite; /* Coincide con la duración de la animación del rayo */
+    will-change: transform, filter; /* Optimización para el navegador */
 }
 
 a {
@@ -120,7 +123,7 @@ a {
     opacity: 0;
     pointer-events: none;
     animation: relampago 15s infinite; /* Más frecuente */
-    mix-blend-mode: overlay;
+    mix-blend-mode: overlay; /* Esto ayuda a que el flash se "integre" con el fondo */
     z-index: 10;
 }
 
@@ -128,34 +131,61 @@ a {
     0%, 5%, 10%, 15%, 20%, 25%, 30%, 35%, 40%, 45%, 50%, 55%, 60%, 65%, 70%, 75%, 80%, 85%, 90%, 95%, 100% {
         opacity: 0;
     }
-    /* Flashes principales más variados */
+    /* Flashes principales más variados (ajustados para el contraste) */
     3.5%, 18%, 32%, 58%, 77% {
-        opacity: 0.35; /* Ligeramente más brillante */
+        opacity: 0.4; /* Un poco más de brillo para que se note el contraste */
     }
     3.6%, 18.1%, 32.1%, 58.1%, 77.1% {
         opacity: 0;
     }
     4%, 18.5%, 32.5%, 58.5%, 77.5% {
-        opacity: 0.18; /* Segundo flash un poco más brillante */
+        opacity: 0.2; /* Segundo flash más notorio */
     }
     4.1%, 18.6%, 32.6%, 58.6%, 77.6% {
         opacity: 0;
     }
     /* Añadimos flashes secundarios muy rápidos y aleatorios */
     7%, 22%, 48%, 62%, 85% { /* Nuevos momentos de flash */
-        opacity: 0.1;
+        opacity: 0.12;
     }
     7.1%, 22.1%, 48.1%, 62.1%, 85.1% {
         opacity: 0;
     }
     /* Un flash muy intenso y rápido ocasional */
     90.5% {
-        opacity: 0.5; /* Flash muy brillante */
+        opacity: 0.6; /* Flash muy brillante y fugaz */
     }
     90.6% {
         opacity: 0;
     }
 }
+
+/* NUEVA ANIMACIÓN para el efecto de contraste en el fondo */
+@keyframes screenFlash {
+    0%, 5%, 10%, 15%, 20%, 25%, 30%, 35%, 40%, 45%, 50%, 55%, 60%, 65%, 70%, 75%, 80%, 85%, 90%, 95%, 100% {
+        filter: brightness(1) contrast(1); /* Estado normal del fondo */
+        transform: scale(1); /* Evitamos un movimiento constante */
+    }
+    /* Coincide los tiempos con los flashes más intensos del rayo en @keyframes relampago */
+    3.5%, 18%, 32%, 58%, 77% {
+        filter: brightness(1.2) contrast(1.5); /* Aumenta el brillo y mucho el contraste */
+        transform: scale(1.002); /* Ligerísimo zoom para impacto */
+    }
+    3.6%, 18.1%, 32.1%, 58.1%, 77.1% {
+        filter: brightness(1) contrast(1); /* Vuelve a la normalidad rápidamente */
+        transform: scale(1);
+    }
+    /* Puedes añadir más puntos si quieres que los flashes secundarios también afecten el contraste */
+    90.5% { /* Para el flash muy intenso */
+        filter: brightness(1.3) contrast(1.7); /* Contraste aún más fuerte */
+        transform: scale(1.004);
+    }
+    90.6% {
+        filter: brightness(1) contrast(1);
+        transform: scale(1);
+    }
+}
+
 
 /* Efectos de Destello - Estilos base. Las posiciones serán sobreescritas por JS */
 .destello {
@@ -166,8 +196,7 @@ a {
     animation: flicker 8s infinite ease-in-out; /* Velocidad ligeramente ajustada */
     pointer-events: none;
     z-index: 2; /* Asegurar que estén por debajo del texto pero encima del fondo */
-    opacity: 1;
-    /* Eliminamos las posiciones fijas de top/left y animation-delay de aquí */
+    opacity: 0; /* Asegura que el destello empiece invisible */
 }
 
 @keyframes flicker {
@@ -184,7 +213,6 @@ a {
         font-size: 3.5rem;
     }
     .destello {
-        /* Puedes poner tamaños específicos para desktop aquí si los quieres diferentes a los generales */
         width: 150px;
         height: 150px;
     }
