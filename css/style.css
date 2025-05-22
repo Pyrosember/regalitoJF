@@ -128,16 +128,31 @@ a {
     0%, 5%, 10%, 15%, 20%, 25%, 30%, 35%, 40%, 45%, 50%, 55%, 60%, 65%, 70%, 75%, 80%, 85%, 90%, 95%, 100% {
         opacity: 0;
     }
-    3.5%, 18%, 32%, 58%, 77% { /* Momentos de flash aleatorios */
-        opacity: 0.3; /* Un flash más brillante */
+    /* Flashes principales más variados */
+    3.5%, 18%, 32%, 58%, 77% {
+        opacity: 0.35; /* Ligeramente más brillante */
     }
     3.6%, 18.1%, 32.1%, 58.1%, 77.1% {
         opacity: 0;
     }
     4%, 18.5%, 32.5%, 58.5%, 77.5% {
-        opacity: 0.15; /* Un segundo flash más suave */
+        opacity: 0.18; /* Segundo flash un poco más brillante */
     }
     4.1%, 18.6%, 32.6%, 58.6%, 77.6% {
+        opacity: 0;
+    }
+    /* Añadimos flashes secundarios muy rápidos y aleatorios */
+    7%, 22%, 48%, 62%, 85% { /* Nuevos momentos de flash */
+        opacity: 0.1;
+    }
+    7.1%, 22.1%, 48.1%, 62.1%, 85.1% {
+        opacity: 0;
+    }
+    /* Un flash muy intenso y rápido ocasional */
+    90.5% {
+        opacity: 0.5; /* Flash muy brillante */
+    }
+    90.6% {
         opacity: 0;
     }
 }
