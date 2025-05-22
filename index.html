@@ -11,9 +11,60 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-     <script src="js/script.js" defer></script>
+    <style>
+        /* Estilos para el overlay de inicio */
+        #start-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            color: #AAAAAA;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100; /* Asegúrate de que esté por encima de todo */
+            font-family: "MedievalSharp", cursive;
+            font-size: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: opacity 1s ease-out; /* Transición para que desaparezca suavemente */
+        }
+
+        #start-overlay p {
+            margin-bottom: 20px;
+        }
+
+        #start-overlay button {
+            background: none;
+            border: 2px solid #AAAAAA;
+            color: #AAAAAA;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            font-family: "MedievalSharp", cursive;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #start-overlay button:hover {
+            background-color: #AAAAAA;
+            color: #000;
+        }
+
+        /* Clase para pausar todas las animaciones CSS inicialmente */
+        body.paused * {
+            animation-play-state: paused !important;
+        }
+    </style>
 </head>
-<body>
+<body class="paused">
+    <div id="start-overlay">
+        <p>Entra en la oscuridad del Reino Perdido</p>
+        <button id="startButton">Comenzar</button>
+    </div>
+
     <div class="destello"></div>
     <div class="destello"></div>
     <div class="destello"></div>
@@ -24,6 +75,11 @@
 
     <div class="rayo"></div>
 
-   
+    <audio id="thunderSound" preload="auto">
+        <source src="audio/thunder.mp3" type="audio/mpeg">
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+
+    <script src="js/script.js" defer></script>
 </body>
 </html>
