@@ -162,6 +162,8 @@
             animation: flicker 8s infinite ease-in-out; /* Velocidad ligeramente ajustada */
             pointer-events: none;
             z-index: 2; /* Asegurar que estén por debajo del texto pero encima del fondo */
+            top: 20%; 
+            left: 10%; }
         }
 
         
