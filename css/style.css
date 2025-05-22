@@ -203,53 +203,61 @@ a {
     50% { opacity: 0.5; transform: scale(1.3); }
 }
 
-/* ¡NUEVO CÓDIGO PARA EL EFECTO DE LLUVIA! */
-.rain {
+/* --- NUEVO CÓDIGO PARA EL EFECTO DE LLUVIA --- */
+.rain-container {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    overflow: hidden; /* Asegura que las gotas no se salgan del contenedor */
-    pointer-events: none; /* No bloquea interacciones con otros elementos */
+    overflow: hidden;
+    pointer-events: none;
     z-index: 5; /* Por encima del fondo, pero por debajo de los mensajes y el rayo */
-    /* Aquí definimos las capas de lluvia con múltiples gradientes */
-    background:
-        /* Gotas de lluvia más grandes y lentas (capa más cercana) */
-        linear-gradient(transparent 50%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.15) 100%),
-        linear-gradient(transparent 50%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.15) 100%),
-        linear-gradient(transparent 50%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.15) 100%),
-        /* Gotas de lluvia medianas (capa media) */
-        linear-gradient(transparent 50%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.1) 100%),
-        linear-gradient(transparent 50%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.1) 100%),
-        /* Gotas de lluvia pequeñas y rápidas (capa más lejana) */
-        linear-gradient(transparent 50%, rgba(255,255,255,0.03) 50%, rgba(255,255,255,0.08) 100%);
-
-    background-size: 100px 1000px, 150px 1000px, 200px 1000px, 
-                     120px 800px, 180px 800px, 
-                     80px 600px; /* Ancho y alto de cada "gota" de gradiente */
-
-    /* Animamos el background-position para que los gradientes "caigan" */
-    animation: rain 1s linear infinite; /* Animación principal para todas las capas */
-    will-change: background-position; /* Optimización de rendimiento */
 }
 
-/* Animación para el movimiento de la lluvia */
-@keyframes rain {
-    from {
-        background-position: 
-            0px 0px, 0px 0px, 0px 0px, /* Capa 1: grandes */
-            0px 0px, 0px 0px,          /* Capa 2: medianas */
-            0px 0px;                   /* Capa 3: pequeñas */
-    }
+/* Estilo base para cada capa de lluvia */
+.rain-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: translateY(-100%); /* Empieza arriba, fuera de la vista */
+}
+
+/*
+  Para crear las gotas de lluvia, usamos un solo pseudo-elemento (:before o :after)
+  con muchos box-shadow. Cada box-shadow representa una gota.
+  El JavaScript generaría dinámicamente las posiciones aleatorias de estas gotas.
+*/
+
+/* Capa 1: Lluvia más lejana (menos densa, más pequeña, más rápida) */
+.layer1 {
+    /* Las propiedades de box-shadow se generan con JS */
+    animation: fall 1.5s linear infinite;
+    opacity: 0.3; /* Menos visible */
+}
+
+/* Capa 2: Lluvia media */
+.layer2 {
+    /* Las propiedades de box-shadow se generan con JS */
+    animation: fall 1s linear infinite;
+    opacity: 0.5; /* Visibilidad media */
+}
+
+/* Capa 3: Lluvia más cercana (más densa, más grande, más lenta) */
+.layer3 {
+    /* Las propiedades de box-shadow se generan con JS */
+    animation: fall 0.7s linear infinite;
+    opacity: 0.7; /* Más visible */
+}
+
+/* Animación de caída para las gotas de lluvia */
+@keyframes fall {
     to {
-        background-position: 
-            0px 1000px, 0px 1000px, 0px 1000px, /* Gotas grandes caen 1000px */
-            0px 800px, 0px 800px,              /* Gotas medianas caen 800px */
-            0px 600px;                         /* Gotas pequeñas caen 600px */
+        transform: translateY(100vh); /* Cae 100% de la altura de la ventana */
     }
 }
-
 
 /* Media Query para Desktop: cambios generales */
 @media (min-width: 768px) {
@@ -262,25 +270,5 @@ a {
     .destello {
         width: 150px;
         height: 150px;
-    }
-    /* Puedes ajustar el tamaño de la lluvia para desktop si quieres */
-    .rain {
-        background-size: 150px 1500px, 200px 1500px, 250px 1500px,
-                         180px 1000px, 250px 1000px,
-                         100px 800px;
-    }
-    @keyframes rain {
-        from {
-            background-position:
-                0px 0px, 0px 0px, 0px 0px,
-                0px 0px, 0px 0px,
-                0px 0px;
-        }
-        to {
-            background-position:
-                0px 1500px, 0px 1500px, 0px 1500px,
-                0px 1000px, 0px 1000px,
-                0px 800px;
-        }
     }
 }
