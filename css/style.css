@@ -152,6 +152,9 @@
                 opacity: 0;
             }
         }
+        .destello:nth-child(1) { top: 20%; left: 10% }
+        .destello:nth-child(2) { top: 60%; left: 70% }
+        .destello:nth-child(3) { top: 40%; left: 30% }
 
         /* Efectos de Destello - los mantenemos como elementos visuales de fondo sutiles */
         .destello {
@@ -165,9 +168,7 @@
             top: 20%; 
             left: 10%; }
         }
-.destello:nth-child(1) { top: 20%; left: 10%; animation-delay: 2s; }
-        .destello:nth-child(2) { top: 60%; left: 70%; animation-delay: 6s; }
-        .destello:nth-child(3) { top: 40%; left: 30%; animation-delay: 8s; }
+
         
 
         @keyframes flicker {
