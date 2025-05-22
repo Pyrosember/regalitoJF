@@ -1,19 +1,61 @@
-/* ... (todo tu CSS existente) ... */
+/* ... (todo tu CSS existente, hasta el final de la sección de mensajes) ... */
 
-/* --- NUEVOS ESTILOS PARA EL BOTÓN --- */
+/* Ajuste de delays para que aparezcan en secuencia */
+.mensaje:nth-child(4) {
+    animation-delay: 1.5s;
+    animation-name: appearImpact, flickerBulb;
+    animation-duration: 0.8s, 2s;
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1.1), ease-in-out;
+    animation-delay: 1.5s, calc(1.5s + 0.8s + 0.5s);
+    animation-fill-mode: forwards, forwards;
+    animation-iteration-count: 1, infinite;
+    animation-direction: normal, alternate;
+}
+
+.mensaje:nth-child(5) {
+    animation-delay: 4.5s;
+    animation-name: appearImpact, flickerBulb;
+    animation-duration: 0.8s, 2s;
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1.1), ease-in-out;
+    animation-delay: 4.5s, calc(4.5s + 0.8s + 0.5s);
+    animation-fill-mode: forwards, forwards;
+    animation-iteration-count: 1, infinite;
+    animation-direction: normal, alternate;
+}
+
+.mensaje:nth-child(6) {
+    animation-delay: 7.5s;
+    animation-name: appearImpact, flickerBulb;
+    animation-duration: 0.8s, 2s;
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1.1), ease-in-out;
+    animation-delay: 7.5s, calc(7.5s + 0.8s + 0.5s);
+    animation-fill-mode: forwards, forwards;
+    animation-iteration-count: 1, infinite;
+    animation-direction: normal, alternate;
+}
+
+/* ... (continúa con los estilos de .rayo, @keyframes relampago, etc.) ... */
+
+
+/* --- ESTILOS PARA EL BOTÓN (modificados) --- */
 .action-button-container {
-    position: relative; /* Necesario para posicionar el botón si usas absolute */
-    margin-top: 2rem; /* Espacio entre el último mensaje y el botón */
-    opacity: 0; /* Oculto por defecto */
-    transform: translateY(20px); /* Un poco desplazado hacia abajo */
-    animation: appearButton 0.8s ease-out forwards; /* Animación para aparecer */
-    animation-delay: 9s; /* Aparece después del último mensaje */
-    z-index: 5; /* Asegura que esté sobre el fondo pero debajo del rayo */
+    position: relative;
+    margin-top: 2rem;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: appearButton 0.8s ease-out forwards;
+    /* AJUSTE DEL DELAY: Último mensaje termina en 7.5s + 0.8s = 8.3s.
+       Añadimos ~7 segundos a eso, lo que hace 15.3s. Redondeamos a 15.5s para un pequeño margen. */
+    animation-delay: 15.5s; /* El botón aparecerá ~7 segundos después de que el último mensaje termine */
+    z-index: 5;
 }
 
 .action-button {
-    display: inline-block;
-    padding: 1.2rem 2.5rem;
+    display: flex; /* Usamos flexbox para alinear texto e imagen */
+    flex-direction: column; /* Colocamos los elementos en columna */
+    align-items: center; /* Centramos horizontalmente */
+    justify-content: center; /* Centramos verticalmente */
+    padding: 1.2rem 2.5rem; /* Ajusta el padding para la imagen */
     font-family: "MedievalSharp", cursive;
     font-size: 1.2rem;
     color: #F0E68C; /* Un dorado o amarillo pálido para el texto */
@@ -29,29 +71,32 @@
     outline: none; /* Elimina el contorno azul al hacer clic */
 }
 
+/* Estilo para la imagen dentro del botón */
+.button-emblem {
+    width: 60px; /* Tamaño del emblema */
+    height: auto;
+    margin-top: 10px; /* Espacio entre el texto y la imagen */
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3)); /* Un pequeño brillo o sombra para que destaque */
+    transition: transform 0.3s ease; /* Transición para el efecto hover */
+}
+
 .action-button:hover {
-    background: linear-gradient(145deg, #5C3D1B, #3B240B); /* Ligeramente más claro al pasar el ratón */
-    transform: translateY(-3px) scale(1.02); /* Pequeño levantamiento y agrandamiento */
+    background: linear-gradient(145deg, #5C3D1B, #3B240B);
+    transform: translateY(-3px) scale(1.02);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8), inset 0 0 10px rgba(255, 255, 255, 0.2);
-    color: #FFFACD; /* Un dorado más brillante */
+    color: #FFFACD;
+}
+
+.action-button:hover .button-emblem {
+    transform: scale(1.1); /* La imagen se agranda un poco al pasar el ratón */
 }
 
 .action-button:active {
-    transform: translateY(1px); /* Ligero hundimiento al hacer clic */
+    transform: translateY(1px);
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4), inset 0 0 5px rgba(255, 255, 255, 0.05);
 }
 
-/* Animación para que el botón aparezca */
-@keyframes appearButton {
-    0% {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+/* ... (resto de tus @keyframes y media queries) ... */
 
 /* Media Query para Desktop: cambios generales */
 @media (min-width: 768px) {
@@ -67,6 +112,9 @@
     }
     .action-button {
         font-size: 1.5rem; /* Botón más grande en desktop */
-        padding: 1.5rem 3rem;
+        padding: 1.5rem 3rem; /* Ajusta el padding para la imagen */
+    }
+    .button-emblem {
+        width: 80px; /* Emblema más grande en desktop */
     }
 }
