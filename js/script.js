@@ -2,13 +2,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const destellos = document.querySelectorAll('.destello');
     const thunderSound = document.getElementById('thunderSound');
 
+    // Posiciona los destellos de forma aleatoria al cargar la página
     destellos.forEach((destello) => {
         const randomTop = Math.random() * 90;
         const randomLeft = Math.random() * 90;
         destello.style.top = `${randomTop}%`;
         destello.style.left = `${randomLeft}%`;
+
         const randomDelay = Math.random() * 8;
         destello.style.animationDelay = `${randomDelay}s`;
+
         let minSize, maxSize;
         if (window.innerWidth < 768) {
             minSize = 60;
@@ -22,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
         destello.style.height = `${randomSize}px`;
     });
 
+    // Función para reproducir el trueno
     function playThunder() {
         thunderSound.currentTime = 0;
         thunderSound.play().catch(e => {
@@ -29,7 +33,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Reproduce el audio del trueno inmediatamente al cargar la página
     playThunder();
-    const regularInterval = 15000;
+
+    // Programa la reproducción del trueno a intervalos regulares (cada 15 segundos)
+    const regularInterval = 15000; // 15 segundos en milisegundos
     setInterval(playThunder, regularInterval);
 });
