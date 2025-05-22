@@ -1,21 +1,21 @@
 document.addEventListener('DOMContentLoaded', () => {
     const destellos = document.querySelectorAll('.destello');
+    const thunderSound = document.getElementById('thunderSound');
+    const startOverlay = document.getElementById('start-overlay');
+    const startButton = document.getElementById('startButton');
+    const body = document.body;
 
-    destellos.forEach((destello, index) => {
-        // Generar posiciones aleatorias
+    // 1. Posiciona los destellos de forma aleatoria al cargar la página
+    destellos.forEach((destello) => {
         const randomTop = Math.random() * 90; // 0-90% para evitar que se salgan demasiado
         const randomLeft = Math.random() * 90; // 0-90%
-
         destello.style.top = `${randomTop}%`;
         destello.style.left = `${randomLeft}%`;
 
-        // Generar un delay aleatorio para la animación de flicker (entre 0 y 8 segundos, por ejemplo)
-        // Esto hará que cada destello empiece su ciclo en un momento diferente.
-        const randomDelay = Math.random() * 8; // Max 8s, como la duración de la animación
+        const randomDelay = Math.random() * 8; // Delay aleatorio para la animación de flicker
         destello.style.animationDelay = `${randomDelay}s`;
 
-        // Opcional: variar el tamaño aleatoriamente para un toque más orgánico
-        // Ajustamos el rango de tamaño para móvil vs. desktop
+        // Varía el tamaño aleatoriamente según el tamaño de la pantalla
         let minSize, maxSize;
         if (window.innerWidth < 768) { // Si es móvil
             minSize = 60;
@@ -27,17 +27,47 @@ document.addEventListener('DOMContentLoaded', () => {
         const randomSize = Math.floor(Math.random() * (maxSize - minSize + 1)) + minSize;
         destello.style.width = `${randomSize}px`;
         destello.style.height = `${randomSize}px`;
-
-        // Opcional: Re-posicionar los destellos periódicamente para un efecto dinámico
-        // Descomenta si quieres que se muevan constantemente
-        /*
-        setInterval(() => {
-            const newRandomTop = Math.random() * 90;
-            const newRandomLeft = Math.random() * 90;
-            destello.style.top = `${newRandomTop}%`;
-            destello.style.left = `${newRandomLeft}%`;
-        }, (Math.random() * 10 + 10) * 1000); // Se mueven cada 10-20 segundos
-        */
     });
-});
 
+    // 2. Función para iniciar todas las animaciones y el audio
+    function startExperience() {
+        body.classList.remove('paused'); // Quita la clase 'paused' para que las animaciones CSS comiencen
+        
+        // Intenta reproducir el audio inmediatamente (puede fallar si el navegador no lo permite sin interacción)
+        thunderSound.play().catch(e => console.error("Error al reproducir el audio:", e));
+        
+        // Duración del ciclo de animación del rayo (15 segundos = 15000 milisegundos)
+        const animationDuration = 15000; 
+
+        // Momentos exactos de los flashes de rayo dentro del ciclo de 15 segundos (en milisegundos)
+        // Estos deben coincidir lo más posible con los porcentajes de @keyframes relampago
+        const flashTimings = [
+            525,   // 3.5% de 15s
+            2700,  // 18% de 15s
+            4800,  // 32% de 15s
+            8700,  // 58% de 15s
+            11550, // 77% de 15s
+            13575  // 90.5% de 15s (el flash más intenso)
+        ];
+
+        // Establece un bucle para reproducir el sonido en los momentos de los flashes
+        setInterval(() => {
+            flashTimings.forEach(time => {
+                setTimeout(() => {
+                    // Reinicia el audio al principio para permitir múltiples reproducciones rápidas
+                    thunderSound.currentTime = 0; 
+                    thunderSound.play().catch(e => console.error("Error al reproducir el trueno:", e));
+                }, time);
+            });
+        }, animationDuration); // Repetir este conjunto de sonidos cada 15 segundos
+
+        // 3. Oculta el overlay de inicio
+        startOverlay.style.opacity = '0';
+        setTimeout(() => {
+            startOverlay.remove(); // Elimina el overlay del DOM después de la transición
+        }, 1000); // Espera a que la transición de opacidad termine (1 segundo)
+    }
+
+    // 4. Asocia la función startExperience al clic del botón
+    startButton.addEventListener('click', startExperience);
+});
