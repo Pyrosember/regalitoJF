@@ -25,7 +25,7 @@ body {
     padding: 1rem;
     position: relative; /* Para posicionar los efectos de luz */
     z-index: 1; /* Asegurar que el cuerpo esté por encima de los efectos iniciales */
-    /* ¡NUEVAS LÍNEAS PARA EL EFECTO DE CONTRASTE DEL FONDO! */
+    /* ¡NUEVAS LÍNEAS PARA EL EFECTO DE CONTRASTE DEL FONDO Y SHAKE! */
     animation: screenFlash 15s infinite; /* Coincide con la duración de la animación del rayo */
     will-change: transform, filter; /* Optimización para el navegador */
 }
@@ -112,7 +112,7 @@ a {
     }
 }
 
-/* Efecto de Rayo - lo hacemos más frecuente y con más impacto */
+/* Efecto de Rayo - ¡MÁS BRUTAL! */
 .rayo {
     position: fixed;
     top: 0;
@@ -131,58 +131,64 @@ a {
     0%, 5%, 10%, 15%, 20%, 25%, 30%, 35%, 40%, 45%, 50%, 55%, 60%, 65%, 70%, 75%, 80%, 85%, 90%, 95%, 100% {
         opacity: 0;
     }
-    /* Flashes principales más variados (ajustados para el contraste) */
+    /* Flashes principales más intensos y duraderos */
     3.5%, 18%, 32%, 58%, 77% {
-        opacity: 0.4; /* Un poco más de brillo para que se note el contraste */
+        opacity: 0.7; /* ¡Mucho más brillante! */
     }
     3.6%, 18.1%, 32.1%, 58.1%, 77.1% {
         opacity: 0;
     }
     4%, 18.5%, 32.5%, 58.5%, 77.5% {
-        opacity: 0.2; /* Segundo flash más notorio */
+        opacity: 0.35; /* Segundo flash más notorio */
     }
     4.1%, 18.6%, 32.6%, 58.6%, 77.6% {
         opacity: 0;
     }
-    /* Añadimos flashes secundarios muy rápidos y aleatorios */
-    7%, 22%, 48%, 62%, 85% { /* Nuevos momentos de flash */
-        opacity: 0.12;
+    /* Flashes secundarios */
+    7%, 22%, 48%, 62%, 85% {
+        opacity: 0.2;
     }
     7.1%, 22.1%, 48.1%, 62.1%, 85.1% {
         opacity: 0;
     }
     /* Un flash muy intenso y rápido ocasional */
     90.5% {
-        opacity: 0.6; /* Flash muy brillante y fugaz */
+        opacity: 0.9; /* ¡Casi blanco puro! */
     }
     90.6% {
         opacity: 0;
     }
 }
 
-/* NUEVA ANIMACIÓN para el efecto de contraste en el fondo */
+/* NUEVA ANIMACIÓN para el efecto de contraste, brillo, sacudida y distorsión en el fondo */
 @keyframes screenFlash {
     0%, 5%, 10%, 15%, 20%, 25%, 30%, 35%, 40%, 45%, 50%, 55%, 60%, 65%, 70%, 75%, 80%, 85%, 90%, 95%, 100% {
-        filter: brightness(1) contrast(1); /* Estado normal del fondo */
-        transform: scale(1); /* Evitamos un movimiento constante */
+        filter: brightness(1) contrast(1) hue-rotate(0deg); /* Estado normal del fondo */
+        transform: translate(0, 0) scale(1); /* Posición y escala normal */
     }
     /* Coincide los tiempos con los flashes más intensos del rayo en @keyframes relampago */
     3.5%, 18%, 32%, 58%, 77% {
-        filter: brightness(1.2) contrast(1.5); /* Aumenta el brillo y mucho el contraste */
-        transform: scale(1.002); /* Ligerísimo zoom para impacto */
+        filter: brightness(1.5) contrast(2.0) hue-rotate(5deg); /* Brillo, MUCHO contraste, y ligero cambio de color */
+        transform: translate(2px, 2px) scale(1.008); /* Ligerísimo movimiento y zoom para impacto */
+    }
+    3.55%, 18.05%, 32.05%, 58.05%, 77.05% { /* Un micro-flash para el shake */
+        transform: translate(-3px, -3px) scale(1.006); /* Movimiento opuesto para el shake */
     }
     3.6%, 18.1%, 32.1%, 58.1%, 77.1% {
-        filter: brightness(1) contrast(1); /* Vuelve a la normalidad rápidamente */
-        transform: scale(1);
+        filter: brightness(1) contrast(1) hue-rotate(0deg); /* Vuelve a la normalidad rápidamente */
+        transform: translate(0, 0) scale(1);
     }
     /* Puedes añadir más puntos si quieres que los flashes secundarios también afecten el contraste */
     90.5% { /* Para el flash muy intenso */
-        filter: brightness(1.3) contrast(1.7); /* Contraste aún más fuerte */
-        transform: scale(1.004);
+        filter: brightness(1.7) contrast(2.5) hue-rotate(10deg); /* Contraste y brillo AÚN más fuerte, distorsión de color */
+        transform: translate(5px, 5px) scale(1.01); /* Movimiento y zoom más grande */
+    }
+    90.55% {
+        transform: translate(-6px, -6px) scale(1.008); /* Otro movimiento para la sacudida */
     }
     90.6% {
-        filter: brightness(1) contrast(1);
-        transform: scale(1);
+        filter: brightness(1) contrast(1) hue-rotate(0deg);
+        transform: translate(0, 0) scale(1);
     }
 }
 
