@@ -15,7 +15,7 @@ html, body {
 }
 
 body {
-    background: url('../images/Fondo-mobile-IA.webp') no-repeat center center fixed; /* Ruta relativa a la imagen */
+    background: url('../images/Fondo-mobile-IA.webp') no-repeat center center fixed;
     background-size: cover;
     display: flex;
     align-items: center;
@@ -23,8 +23,10 @@ body {
     flex-direction: column;
     text-align: center;
     padding: 1rem;
-    position: relative; /* Para posicionar los efectos de luz */
-    z-index: 1; /* Asegurar que el cuerpo esté por encima de los efectos iniciales */
+    position: relative;
+    z-index: 1;
+    animation: screenFlash 15s infinite;
+    will-change: transform, filter;
 }
 
 a {
@@ -34,29 +36,28 @@ a {
 
 .mensaje {
     font-size: 1.8rem;
-    opacity: 0; /* Empieza invisible */
-    animation: appearImpact 0.8s cubic-bezier(0.1, 0.9, 0.2, 1.1) forwards; /* Curva de rebote */
-    text-shadow: 0 0 5px rgba(170, 170, 170, 0.5), 0 0 15px rgba(0, 0, 0, 0.4), 0 0 25px rgba(0, 0, 0, 0.8); /* Sombra ajustada al nuevo color */
+    opacity: 0;
+    animation: appearImpact 0.8s cubic-bezier(0.1, 0.9, 0.2, 1.1) forwards;
+    text-shadow: 0 0 5px rgba(170, 170, 170, 0.5), 0 0 15px rgba(0, 0, 0, 0.4), 0 0 25px rgba(0, 0, 0, 0.8);
     line-height: 1.4;
-    transform: scale(0.8); /* Empieza un poco encogido */
-    will-change: transform, opacity, text-shadow; /* Sugerencia para el navegador */
-    margin-bottom: 0.5em; /* Espacio entre mensajes */
+    transform: scale(0.8);
+    will-change: transform, opacity, text-shadow;
+    margin-bottom: 0.5em;
 }
 
 /* Ajuste de delays para que aparezcan en secuencia */
-/* appearImpact es 0.8s de duración*/
-.mensaje:nth-child(4) { /* Primer mensaje real */
+.mensaje:nth-child(4) {
     animation-delay: 1.5s;
     animation-name: appearImpact, flickerBulb;
-    animation-duration: 0.8s, 2s; /* Duración para impacto y para flicker */
+    animation-duration: 0.8s, 2s;
     animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1.1), ease-in-out;
-    animation-delay: 1.5s, calc(1.5s + 0.8s + 0.5s); /* Impacto, luego flicker 0.5s después de que termine impacto */
+    animation-delay: 1.5s, calc(1.5s + 0.8s + 0.5s);
     animation-fill-mode: forwards, forwards;
     animation-iteration-count: 1, infinite;
     animation-direction: normal, alternate;
 }
 
-.mensaje:nth-child(5) { /* Segundo mensaje real */
+.mensaje:nth-child(5) {
     animation-delay: 4.5s;
     animation-name: appearImpact, flickerBulb;
     animation-duration: 0.8s, 2s;
@@ -67,7 +68,7 @@ a {
     animation-direction: normal, alternate;
 }
 
-.mensaje:nth-child(6) { /* Tercer mensaje real */
+.mensaje:nth-child(6) {
     animation-delay: 7.5s;
     animation-name: appearImpact, flickerBulb;
     animation-duration: 0.8s, 2s;
@@ -81,8 +82,8 @@ a {
 /* Animación de impacto para el texto */
 @keyframes appearImpact {
     0% { opacity: 0; transform: scale(0.7); }
-    50% { opacity: 1; transform: scale(1.05); } /* Ligeramente más grande */
-    100% { opacity: 1; transform: scale(1); } /* Vuelve a tamaño normal y se mantiene */
+    50% { opacity: 1; transform: scale(1.05); }
+    100% { opacity: 1; transform: scale(1); }
 }
 
 /* Nueva animación para el efecto de bombilla defectuosa */
@@ -96,12 +97,12 @@ a {
         text-shadow: 0 0 4px rgba(170, 170, 170, 0.4), 0 0 12px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.7);
     }
     40% {
-        opacity: 1; /* Vuelve a brillar más */
+        opacity: 1;
         text-shadow: 0 0 6px rgba(170, 170, 170, 0.6), 0 0 18px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 0, 0, 0.9);
     }
     60% {
-        opacity: 0.85; /* Baja la opacidad para el parpadeo */
-        text-shadow: none; /* Oscurece el brillo completamente */
+        opacity: 0.85;
+        text-shadow: none;
     }
     80% {
         opacity: 0.9;
@@ -109,7 +110,7 @@ a {
     }
 }
 
-/* Efecto de Rayo - lo hacemos más frecuente y con más impacto */
+/* Efecto de Rayo - ¡MÁS BRUTAL! */
 .rayo {
     position: fixed;
     top: 0;
@@ -119,7 +120,7 @@ a {
     background: white;
     opacity: 0;
     pointer-events: none;
-    animation: relampago 15s infinite; /* Más frecuente */
+    animation: relampago 15s infinite;
     mix-blend-mode: overlay;
     z-index: 10;
 }
@@ -128,31 +129,72 @@ a {
     0%, 5%, 10%, 15%, 20%, 25%, 30%, 35%, 40%, 45%, 50%, 55%, 60%, 65%, 70%, 75%, 80%, 85%, 90%, 95%, 100% {
         opacity: 0;
     }
-    3.5%, 18%, 32%, 58%, 77% { /* Momentos de flash aleatorios */
-        opacity: 0.3; /* Un flash más brillante */
+    3.5%, 18%, 32%, 58%, 77% {
+        opacity: 0.7;
     }
     3.6%, 18.1%, 32.1%, 58.1%, 77.1% {
         opacity: 0;
     }
     4%, 18.5%, 32.5%, 58.5%, 77.5% {
-        opacity: 0.15; /* Un segundo flash más suave */
+        opacity: 0.35;
     }
     4.1%, 18.6%, 32.6%, 58.6%, 77.6% {
         opacity: 0;
+    }
+    7%, 22%, 48%, 62%, 85% {
+        opacity: 0.2;
+    }
+    7.1%, 22.1%, 48.1%, 62.1%, 85.1% {
+        opacity: 0;
+    }
+    90.5% {
+        opacity: 0.9;
+    }
+    90.6% {
+        opacity: 0;
+    }
+}
+
+/* ANIMACIÓN para el efecto de contraste, brillo, sacudida y distorsión en el fondo */
+@keyframes screenFlash {
+    0%, 5%, 10%, 15%, 20%, 25%, 30%, 35%, 40%, 45%, 50%, 55%, 60%, 65%, 70%, 75%, 80%, 85%, 90%, 95%, 100% {
+        filter: brightness(1) contrast(1) hue-rotate(0deg);
+        transform: translate(0, 0) scale(1);
+    }
+    3.5%, 18%, 32%, 58%, 77% {
+        filter: brightness(1.5) contrast(2.0) hue-rotate(5deg);
+        transform: translate(2px, 2px) scale(1.008);
+    }
+    3.55%, 18.05%, 32.05%, 58.05%, 77.05% {
+        transform: translate(-3px, -3px) scale(1.006);
+    }
+    3.6%, 18.1%, 32.1%, 58.1%, 77.1% {
+        filter: brightness(1) contrast(1) hue-rotate(0deg);
+        transform: translate(0, 0) scale(1);
+    }
+    90.5% {
+        filter: brightness(1.7) contrast(2.5) hue-rotate(10deg);
+        transform: translate(5px, 5px) scale(1.01);
+    }
+    90.55% {
+        transform: translate(-6px, -6px) scale(1.008);
+    }
+    90.6% {
+        filter: brightness(1) contrast(1) hue-rotate(0deg);
+        transform: translate(0, 0) scale(1);
     }
 }
 
 /* Efectos de Destello - Estilos base. Las posiciones serán sobreescritas por JS */
 .destello {
     position: absolute;
-    width: 150px; /* Tamaño por defecto, JS lo ajustará también si quieres */
+    width: 150px;
     height: 150px;
     background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 80%);
-    animation: flicker 8s infinite ease-in-out; /* Velocidad ligeramente ajustada */
+    animation: flicker 8s infinite ease-in-out;
     pointer-events: none;
-    z-index: 2; /* Asegurar que estén por debajo del texto pero encima del fondo */
+    z-index: 2;
     opacity: 0;
-    /* Eliminamos las posiciones fijas de top/left y animation-delay de aquí */
 }
 
 @keyframes flicker {
@@ -163,13 +205,12 @@ a {
 /* Media Query para Desktop: cambios generales */
 @media (min-width: 768px) {
     body {
-        background-image: url('../images/Fondo-desktop-ia.webp'); /* Ruta relativa a la imagen */
+        background-image: url('../images/Fondo-desktop-ia.webp');
     }
     .mensaje {
         font-size: 3.5rem;
     }
     .destello {
-        /* Puedes poner tamaños específicos para desktop aquí si los quieres diferentes a los generales */
         width: 150px;
         height: 150px;
     }
