@@ -46,7 +46,7 @@ function setup() {
 }
 
 function draw() {
-    background(0, 0, 0, 50); // Semi-transparent black background to create a trail effect for rain,
+    clear(); // Semi-transparent black background to create a trail effect for rain,
                              // or just background(0) for clear drops.
                              // 50 is alpha value, range 0-255. Adjust for desired darkness/trail.
 
@@ -77,7 +77,7 @@ function tronar() {
     // After a brief flash, return to semi-transparent black
     // This creates a quick flash effect. Adjust duration if needed.
     setTimeout(() => {
-        background(0, 0, 0, 50); // Return to normal drawing background
+        clear(); // Return to normal drawing background
     }, 100); // Flash duration in milliseconds
 }
 
