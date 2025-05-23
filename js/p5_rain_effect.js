@@ -89,35 +89,83 @@ function windowResized() {
 }
 
 // Gota Class Definition
+¡Entendido! Vamos a darle un toque más dinámico a esas gotas de lluvia, haciendo que roten ligeramente de manera aleatoria y que la mayoría se inclinen un poco hacia la izquierda, simulando el efecto del viento o la perspectiva.
+
+Para esto, usaremos p5.js la función rotate() y translate(), que operan dentro del sistema de coordenadas de p5.js.
+
+Modificación para Rotación y Dirección de Gotas en js/p5_rain_effect.js
+Abre tu archivo js/p5_rain_effect.js y busca el método mostrar() dentro de la class Gota.
+
+Aquí está el código modificado para la clase Gota:
+
+JavaScript
+
+// ... (resto del código sin cambios hasta la clase Gota) ...
+
 class Gota {
+    // Constructor (como un setup del objeto)
     constructor(posicionX, posicionY) {
         this.posX = posicionX;
         this.posY = posicionY;
-        this.vel = random(4, 8); // Slightly faster initial velocity
-        this.col = color(random(150, 200), random(150, 200), random(200, 255), random(100, 200)); // Bluish-white, semi-transparent rain color
-        this.gravedad = random(0.1, 0.2); // Slight variation in gravity for more natural fall
-        this.len = random(10, 20); // Length of the rain drop (stroke)
+        this.vel = random(4, 8);
+        // Usa la opción de grises que preferiste:
+        // Opción 1: Grises claros y suaves
+        this.col = color(random(180, 220), random(180, 220), random(180, 220), random(100, 180));
+        // Opción 2: Grises un poco más oscuros y atmosféricos
+        // this.col = color(random(100, 150), random(100, 150), random(100, 150), random(80, 150));
+        this.gravedad = random(0.1, 0.2);
+        this.len = random(10, 20);
+        
+        // NUEVAS PROPIEDADES para la rotación
+        this.anguloInicial = random(-0.2, 0.2); // Pequeña rotación base random
+        this.inclinacion = random(-0.05, 0.01); // Mayormente hacia la izquierda (valores negativos)
+                                                // Un pequeño rango positivo para variedad
     }
     
     mostrar() {
-        strokeWeight(random(1, 2)); // Thinner or thicker drops
+        strokeWeight(random(1, 2));
         stroke(this.col);
-        line(this.posX, this.posY, this.posX, this.posY + this.len); // Draw as a line for better rain effect
+
+        // --- CAMBIOS CLAVE AQUÍ ---
+        push(); // Guarda el estado actual de transformación del canvas
+        
+        // Mueve el origen de coordenadas al centro de la gota para rotar
+        translate(this.posX, this.posY); 
+        
+        // Aplica la rotación. random(-0.05, 0.05) para un efecto de viento aleatorio
+        // O: this.anguloInicial + this.inclinacion para una dirección más consistente
+        rotate(this.anguloInicial + this.inclinacion); 
+        
+        // Dibuja la línea. Ahora se dibuja desde (0,0) relativo al translate.
+        line(0, 0, 0, this.len); 
+        
+        pop(); // Restaura el estado de transformación anterior del canvas
+        // --- FIN CAMBIOS CLAVE ---
     }
     
     caer() {
         this.vel += this.gravedad;
         this.posY += this.vel;
         
+        // Mover la gota un poco a la izquierda mientras cae (simulando viento)
+        // Puedes ajustar el 0.5 para más o menos desviación horizontal
+        this.posX -= this.vel * random(0.01, 0.05); // Desviación proporcional a la velocidad
+
         if (this.posY > height) this.reiniciar();
     }
     
     reiniciar() {
         this.vel = random(4, 8);
-        this.posY = random(-200, -50); // Start drops slightly above screen to appear smoothly
+        this.posY = random(-200, -50);
         this.posX = random(width);
-        this.col = color(random(150, 200), random(150, 200), random(200, 255), random(100, 200));
+        // Asegúrate de usar la misma opción de color aquí
+        this.col = color(random(180, 220), random(180, 220), random(180, 220), random(100, 180)); // Grises suaves
+        // this.col = color(random(100, 150), random(100, 150), random(100, 150), random(80, 150)); // Grises oscuros
         this.gravedad = random(0.1, 0.2);
         this.len = random(10, 20);
+
+        // Reiniciar las propiedades de rotación también
+        this.anguloInicial = random(-0.2, 0.2);
+        this.inclinacion = random(-0.05, 0.01);
     }
 }
