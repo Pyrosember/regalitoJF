@@ -78,7 +78,9 @@ a {
     animation-iteration-count: 1, infinite;
     animation-direction: normal, alternate;
 }
-
+.instructions-text{
+    font-size: 1.3rem;
+}
 /* Animación de impacto para el texto */
 @keyframes appearImpact {
     0% { opacity: 0; transform: scale(0.7); }
@@ -210,7 +212,7 @@ a {
     opacity: 0;
     transform: translateY(20px);
     animation: appearButton 0.8s ease-out forwards;
-    animation-delay: 15.5s; /* El botón aparecerá ~7 segundos después del último mensaje */
+    animation-delay: 9s; /* El botón aparecerá ~9 segundos después*/
     z-index: 5;
 }
 
@@ -224,10 +226,6 @@ a {
     font-size: 1.2rem;
     color: #F0E68C; /* Un dorado o amarillo pálido para el texto */
     text-decoration: none;
-    border: 2px solid #8B4513; /* Un borde que parece madera oscura o cuero */
-    background: linear-gradient(145deg, #4A2D0C, #2E1B07); /* Fondo degradado oscuro con textura */
-    border-radius: 8px; /* Bordes ligeramente redondeados */
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6), inset 0 0 8px rgba(255, 255, 255, 0.1); /* Sombra exterior y brillo interior */
     transition: all 0.3s ease; /* Transición suave para los estados hover/active */
     cursor: pointer;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7); /* Sombra de texto para profundidad */
@@ -242,10 +240,10 @@ a {
     margin-top: 10px; /* Espacio entre el texto y la imagen */
     filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3)); /* Un pequeño brillo o sombra para que destaque */
     transition: transform 0.3s ease; /* Transición para el efecto hover */
+    rotate: 270deg;
 }
 
 .action-button:hover {
-    background: linear-gradient(145deg, #5C3D1B, #3B240B);
     transform: translateY(-3px) scale(1.02);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8), inset 0 0 10px rgba(255, 255, 255, 0.2);
     color: #FFFACD;

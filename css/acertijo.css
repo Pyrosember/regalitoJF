@@ -1,0 +1,95 @@
+/* ... (todo tu CSS existente) ... */
+
+/* --- NUEVOS ESTILOS PARA EL FORMULARIO DEL ACERTIJO --- */
+.acertijo-text {
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.input-container {
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.input-field {
+    padding: 0.8rem 1.2rem;
+    font-family: "MedievalSharp", cursive;
+    font-size: 1.1rem;
+    background-color: rgba(30, 20, 10, 0.7); /* Fondo oscuro semitransparente */
+    border: 2px solid #8B4513; /* Borde similar al botón */
+    color: #F0E68C; /* Texto dorado */
+    border-radius: 5px;
+    text-align: center;
+    width: 80%;
+    max-width: 300px;
+    outline: none;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-field:focus {
+    border-color: #DAA520; /* Borde más brillante al enfocar */
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.7), 0 0 10px rgba(218, 165, 32, 0.4);
+}
+
+.submit-button {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 0.8rem 1.8rem;
+    font-family: "MedievalSharp", cursive;
+    font-size: 1.1rem;
+    color: #F0E68C;
+    text-decoration: none; /* Asegurarse de que no tenga subrayado si es un <button> */
+    border: 2px solid #8B4513;
+    background: linear-gradient(145deg, #4A2D0C, #2E1B07);
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6), inset 0 0 8px rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+    letter-spacing: 0.05em;
+    outline: none;
+}
+
+.submit-button:hover {
+    background: linear-gradient(145deg, #5C3D1B, #3B240B);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8), inset 0 0 10px rgba(255, 255, 255, 0.2);
+    color: #FFFACD;
+}
+
+.submit-button:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4), inset 0 0 5px rgba(255, 255, 255, 0.05);
+}
+
+.feedback-message {
+    margin-top: 1rem;
+    font-size: 1.1rem;
+    color: #FF6347; /* Rojo coral para errores */
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+    text-shadow: 0 0 5px rgba(255, 99, 71, 0.5);
+}
+
+.feedback-message.show {
+    opacity: 1;
+}
+
+/* Estilo para ocultar el botón de siguiente por defecto */
+.next-page-button-container {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: appearButton 0.8s ease-out forwards; /* Reutilizamos la animación */
+    animation-delay: 0s; /* El delay se controlará por JS cuando la clave sea correcta */
+    z-index: 5;
+    display: none; /* Oculto por defecto, JS lo mostrará */
+}
+.next-page-button-container.show {
+    display: block; /* Mostrar cuando se active la clase 'show' */
+}
+
+/* ... (resto de tu CSS existente) ... */

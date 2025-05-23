@@ -1,17 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Lógica para los destellos (solo se aplicará en index.html donde existen los .destello)
     const destellos = document.querySelectorAll('.destello');
-    const thunderSound = document.getElementById('thunderSound');
-
-    // Posiciona los destellos de forma aleatoria al cargar la página
     destellos.forEach((destello) => {
         const randomTop = Math.random() * 90;
         const randomLeft = Math.random() * 90;
         destello.style.top = `${randomTop}%`;
         destello.style.left = `${randomLeft}%`;
-
         const randomDelay = Math.random() * 8;
         destello.style.animationDelay = `${randomDelay}s`;
-
         let minSize, maxSize;
         if (window.innerWidth < 768) {
             minSize = 60;
@@ -25,18 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
         destello.style.height = `${randomSize}px`;
     });
 
-    // Función para reproducir el trueno
-    function playThunder() {
-        thunderSound.currentTime = 0;
-        thunderSound.play().catch(e => {
-            console.warn("La reproducción automática de audio fue bloqueada. Es posible que se requiera una interacción del usuario (clic, scroll, etc.) para que el audio comience a sonar.", e);
-        });
-    }
-
-    // Reproduce el audio del trueno inmediatamente al cargar la página
-    playThunder();
-
-    // Programa la reproducción del trueno a intervalos regulares (cada 15 segundos)
-    const regularInterval = 15000; // 15 segundos en milisegundos
-    setInterval(playThunder, regularInterval);
+    // Lógica para el sonido del trueno - ELIMINADA DE AQUÍ
+    // La gestionará p5_rain_effect.js
 });

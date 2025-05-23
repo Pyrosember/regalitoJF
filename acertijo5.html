@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acertijo Número Cinco</title>
+    <meta name="description" content="El quinto desafío del Reino Perdido. Desvela la clave para avanzar.">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="canonical" href="https://pyrosember.github.io/regalitoJF/acertijo5">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/acertijo.css">
+</head>
+<body>
+    <div class="rayo"></div>
+
+    <main class="content-container">
+        <h1 class="instructions-title mensaje">El Quinto Enigma</h1>
+
+        <p class="instructions-text mensaje acertijo-text">
+            Mi lienzo es el plato<br> mi paleta es la salsa.<br>
+            Con pincel diminuto<br> doy vida a pequeña balanza.<br>
+            Ambas artes exigen detalle, paciencia,<br> y con la pasión se afianza.<br>
+            </p>
+
+        <div class="input-container">
+            <input type="text" id="claveInput" class="input-field" placeholder="Introduce tu respuesta...">
+            <button id="verificarClave" class="submit-button">Descubrir</button>
+        </div>
+
+        <p id="feedbackMessage" class="feedback-message"></p>
+
+        <div id="nextButtonContainer" class="next-page-button-container">
+            <a href="acertijo6.html" class="action-button">
+                Continúa tu Viaje
+                <img src="images/flecha.webp" alt="Emblema del botón" class="button-emblem">
+            </a>
+        </div>
+
+    </main>
+
+    <audio id="thunderSound" preload="auto">
+        <source src="audio/thunder.mp3" type="audio/mpeg">
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+
+    <script src="js/script.js" defer></script>
+    <script src="js/acertijo5.js" defer></script>
+</body>
+</html>
