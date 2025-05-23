@@ -15,7 +15,6 @@ html, body {
 }
 
 body {
-    background: url('../images/Fondo-mobile-IA.webp') no-repeat center center fixed;
     background-size: cover;
     display: flex;
     align-items: center;
