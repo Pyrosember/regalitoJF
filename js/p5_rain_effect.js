@@ -88,18 +88,6 @@ function windowResized() {
     // or just let them loop naturally. For simplicity, we'll let them loop.
 }
 
-// Gota Class Definition
-¡Entendido! Vamos a darle un toque más dinámico a esas gotas de lluvia, haciendo que roten ligeramente de manera aleatoria y que la mayoría se inclinen un poco hacia la izquierda, simulando el efecto del viento o la perspectiva.
-
-Para esto, usaremos p5.js la función rotate() y translate(), que operan dentro del sistema de coordenadas de p5.js.
-
-Modificación para Rotación y Dirección de Gotas en js/p5_rain_effect.js
-Abre tu archivo js/p5_rain_effect.js y busca el método mostrar() dentro de la class Gota.
-
-Aquí está el código modificado para la clase Gota:
-
-JavaScript
-
 // ... (resto del código sin cambios hasta la clase Gota) ...
 
 class Gota {
