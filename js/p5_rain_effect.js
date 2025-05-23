@@ -87,7 +87,6 @@ function windowResized() {
     // Re-initialize drops to adapt to new size, if needed,
     // or just let them loop naturally. For simplicity, we'll let them loop.
 }
-
 // ... (resto del código sin cambios hasta la clase Gota) ...
 
 class Gota {
