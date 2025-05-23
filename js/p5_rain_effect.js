@@ -1,21 +1,38 @@
 // --- p5.js RAIN AND THUNDER EFFECT ---
 
-// ... (código para resumir el contexto de audio sin cambios) ...
+// Fix for browser autoplay policy:
+// Resume audio context on first user interaction.
+function resumeAudioContext() {
+    if (getAudioContext().state !== 'running') {
+        getAudioContext().resume().then(() => {
+            console.log('Audio Context resumed successfully!');
+            document.removeEventListener('click', resumeAudioContext);
+            document.removeEventListener('touchend', resumeAudioContext);
+        }).catch(e => console.error('Error resuming audio context:', e));
+    } else {
+        document.removeEventListener('click', resumeAudioContext);
+        document.removeEventListener('touchend', resumeAudioContext);
+    }
+}
+
+document.addEventListener('click', resumeAudioContext, { once: true });
+document.addEventListener('touchend', resumeAudioContext, { once: true });
+
 
 let gotas = [];
 let cantidad = 800;
 let truenoSound;
-// ELIMINAR ESTA LÍNEA (o comentar):
-// let chanSound; 
+// NEW: Variable for the actual rain sound
+let rainAmbientSound;
 
-let ruidoLluvia;
-let volumenMaximoLluvia = 0.2;
-let volumenLluvia = 0.05;
+// Adjust max volume for the real rain sound
+let volumenMaximoLluvia = 0.2; // You might need to fine-tune this volume
+let volumenLluvia = 0.05; // Starting volume, keep it subtle
 
 function preload() {
     truenoSound = loadSound("audio/thunder.mp3");
-    // ELIMINAR ESTA LÍNEA (o comentar):
-    // chanSound = loadSound("audio/chan.mp3"); 
+    // NEW: Load the real rain sound
+    rainAmbientSound = loadSound("audio/rain.mp3");
 }
 
 function setup() {
@@ -26,12 +43,11 @@ function setup() {
     }
     
     truenoSound.setVolume(0.15);
-    // ELIMINAR ESTA LÍNEA (o comentar):
-    // chanSound.setVolume(0.5); 
     
-    ruidoLluvia = new p5.Noise('pink');
-    ruidoLluvia.start();
-    ruidoLluvia.amp(volumenLluvia);
+    // REPLACE PINK NOISE WITH ACTUAL RAIN SOUND
+    // Start the rain sound and loop it
+    rainAmbientSound.setVolume(volumenLluvia);
+    rainAmbientSound.loop(); // Loop the sound so it plays continuously
 
     let p5Canvas = document.getElementById('defaultCanvas0');
     if (p5Canvas) {
@@ -44,11 +60,6 @@ function setup() {
 
 function draw() {
     clear();
-
-    // ELIMINAR ESTE BLOQUE (o comentar):
-    // if (frameCount === 60) {
-    //     chanSound.play();
-    // }
     
     if (random(100) < 0.15) {
         tronar();
@@ -59,8 +70,74 @@ function draw() {
         g.mostrar();
     }
     
+    // Still use Perlin Noise to vary the volume of the real rain sound
     volumenLluvia = map(noise(millis() * 0.00005), 0, 1, 0.01, volumenMaximoLluvia);
-    ruidoLluvia.amp(volumenLluvia);
+    rainAmbientSound.amp(volumenLluvia); // Control the volume of the loaded rain sound
 }
 
-// ... (resto del código sin cambios, incluyendo la función tronar, windowResized y la clase Gota) ...
+function tronar() {
+    background(255);
+    // Briefly lower rain volume during thunder for effect
+    rainAmbientSound.amp(volumenLluvia * 0.2); 
+    truenoSound.rate(random(0.7, 1.5));
+    truenoSound.play();
+
+    setTimeout(() => {
+        clear();
+        // Restore rain volume after thunder
+        rainAmbientSound.amp(volumenLluvia); 
+    }, 100);
+}
+
+function windowResized() {
+    resizeCanvas(windowWidth, windowHeight);
+}
+
+class Gota {
+    constructor(posicionX, posicionY) {
+        this.posX = posicionX;
+        this.posY = posicionY;
+        this.vel = random(4, 8);
+        this.col = color(random(180, 220), random(180, 220), random(180, 220), random(40, 100)); 
+        this.gravedad = random(0.1, 0.2);
+        this.len = random(10, 20);
+        
+        this.anguloInicial = random(-0.2, 0.2);
+        this.inclinacion = random(-0.05, 0.01);
+    }
+    
+    mostrar() {
+        strokeWeight(random(1, 2));
+        stroke(this.col);
+
+        push(); 
+        
+        translate(this.posX, this.posY); 
+        rotate(this.anguloInicial + this.inclinacion); 
+        
+        line(0, 0, 0, this.len); 
+        
+        pop();
+    }
+    
+    caer() {
+        this.vel += this.gravedad;
+        this.posY += this.vel;
+        
+        this.posX -= this.vel * random(0.01, 0.05);
+
+        if (this.posY > height) this.reiniciar();
+    }
+    
+    reiniciar() {
+        this.vel = random(4, 8);
+        this.posY = random(-200, -50); 
+        this.posX = random(width);
+        this.col = color(random(180, 220), random(180, 220), random(180, 220), random(40, 100)); 
+        this.gravedad = random(0.1, 0.2);
+        this.len = random(10, 20);
+
+        this.anguloInicial = random(-0.2, 0.2);
+        this.inclinacion = random(-0.05, 0.01);
+    }
+}
